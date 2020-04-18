@@ -18,4 +18,4 @@ steps:
   inputs:
     testResultsFormat: 'VSTest'
     testResultsFiles: '**/*.trx'
-    searchFolder: '$(Agent.TempDirectory)\TestResults'
+    searchFolder: 'd:\a\_temp'
