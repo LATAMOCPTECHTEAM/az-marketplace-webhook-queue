@@ -13,6 +13,7 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
+    projects: '**/AZ.Marketplace.Test.csproj'
 - task: VSTest@2
   inputs:
     testSelector: 'testAssemblies'
