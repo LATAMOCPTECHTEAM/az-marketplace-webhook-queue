@@ -29,30 +29,26 @@ namespace AZ.Marketplace.Functions
 
 			//		log.LogInformation("C# HTTP trigger function processed a request.");
 
-			if (data.Status == "Succeeded")
+			switch (data.Action)
 			{
-				switch (data.Action)
-				{
-					case WebhookActionType.Unsubscribe:
-						await _queueWrapper.SendUnsubscribeMessage(data);
-						break;
-					case WebhookActionType.ChangePlan:
-						await _queueWrapper.SendChangePlanMessage(data);
-						break;
-					case WebhookActionType.ChangeQuantity:
-						await _queueWrapper.SendChangeQuantityMessage(data);
-						break;
-					case WebhookActionType.Suspend:
-						await _queueWrapper.SendSuspendMessage(data);
-						break;
-					case WebhookActionType.Reinstate:
-						await _queueWrapper.SendReinstateMessage(data);
-						break;
-				}
-			}
-			else
-			{
-				await _queueWrapper.SendInformationalMessage(data);
+				case WebhookActionType.Unsubscribe:
+					await _queueWrapper.SendUnsubscribeMessage(data);
+					break;
+				case WebhookActionType.ChangePlan:
+					await _queueWrapper.SendChangePlanMessage(data);
+					break;
+				case WebhookActionType.ChangeQuantity:
+					await _queueWrapper.SendChangeQuantityMessage(data);
+					break;
+				case WebhookActionType.Suspend:
+					await _queueWrapper.SendSuspendMessage(data);
+					break;
+				case WebhookActionType.Reinstate:
+					await _queueWrapper.SendReinstateMessage(data);
+					break;
+				default:
+					await _queueWrapper.SendInformationalMessage(data);
+					break;
 			}
 
 			return new OkResult();
