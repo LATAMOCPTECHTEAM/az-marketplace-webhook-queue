@@ -34,12 +34,13 @@ For Service Bus topics, you should fill the following parameters:
 | Parameter                      | Type   | default            | description                                                                                              |
 | ------------------------------ | ------ | ------------------ | -------------------------------------------------------------------------------------------------------- |
 | queueType                      | string | `servicebus-topic` | The type of Queue that will be used.                                                                     |
-| servicebus.unsubscribeTopic    | string | `unsubscribe`      | The name of the Topic that will receive messages with Status = `Succeeded` and Action = `Unsubscribe`    |
-| servicebus.changePlanTopic     | string | `changePlan`       | The name of the Topic that will receive messages with Status = `Succeeded` and Action = `ChangePlan`     |
-| servicebus.changeQuantityTopic | string | `changeQuantity`   | The name of the Topic that will receive messages with Status = `Succeeded` and Action = `ChangeQuantity` |
-| servicebus.suspendTopic        | string | `suspend`          | The name of the Topic that will receive messages with Status = `Succeeded` and Action = `Suspend`        |
-| servicebus.reinstateTopic      | string | `reinstate`        | The name of the Topic that will receive messages with Status = `Succeeded` and Action = `Reinstate`      |
-| servicebus.informationalTopic       | string | `informational`    | The name of the Topic that will receive all other messages that doesn't fit the options above            |
+| servicebus.unsubscribeTopic    | string | `unsubscribe`      | The name of the Topic that will receive messages with Action = `Unsubscribe`    |
+| servicebus.changePlanTopic     | string | `changePlan`       | The name of the Topic that will receive messages with Action = `ChangePlan`     |
+| servicebus.changeQuantityTopic | string | `changeQuantity`   | The name of the Topic that will receive messages with Action = `ChangeQuantity` |
+| servicebus.suspendTopic        | string | `suspend`          | The name of the Topic that will receive messages with Action = `Suspend`        |
+| servicebus.reinstateTopic      | string | `reinstate`        | The name of the Topic that will receive messages with Action = `Reinstate`      |
+| servicebus.informational       | string | `informational`    | The name of the Topic that will receive all other messages that doesn't fit the options above            |
+
 
 #### Connection Strings
 | Parameter  | Type   | default | description                          |

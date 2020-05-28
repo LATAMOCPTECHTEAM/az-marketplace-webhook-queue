@@ -28,7 +28,7 @@ namespace AZ.Marketplace.AZ.Marketplace.Functions
 				PlanId = "planId",
 				PublisherId = "publisherId",
 				Quantity = 1,
-				Status = "Succeeded",
+				Status = "anything",
 				SubscriptionId = "subscriptionId",
 				Timestamp = DateTime.UtcNow
 			};
@@ -90,21 +90,6 @@ namespace AZ.Marketplace.AZ.Marketplace.Functions
 			Assert.AreEqual(response.StatusCode, 200);
 		}
 
-		[TestMethod]
-		public async Task Should_Not_Dispatch_Unsubscribe_Message_When_Status_Is_Invalid()
-		{
-			var mockData = GetWebHookSucceededMock(WebhookActionType.Unsubscribe);
-			mockData.Status = "Failed";
-
-			var request = FunctionRequestHelper.CreateHttpRequest(null, null, GetBodyFromMock(mockData));
-
-			var http = new WebhookFunction(_queueWrapperMock.Object);
-			var response = (StatusCodeResult)await http.Run(request, LoggerHelper.CreateLogger());
-
-			_queueWrapperMock.Verify(x => x.SendUnsubscribeMessage(It.IsAny<WebhookModel>()), Times.Never());
-			Assert.AreEqual(response.StatusCode, 200);
-		}
-
 		#endregion
 
 		#region [ Change Plan ]
@@ -128,21 +113,6 @@ namespace AZ.Marketplace.AZ.Marketplace.Functions
 		public async Task Should_Not_Dispatch_ChangePlan_Message_When_Action_Is_Not_ChangePlan()
 		{
 			var mockData = GetWebHookSucceededMock("anythingelse");
-
-			var request = FunctionRequestHelper.CreateHttpRequest(null, null, GetBodyFromMock(mockData));
-
-			var http = new WebhookFunction(_queueWrapperMock.Object);
-			var response = (StatusCodeResult)await http.Run(request, LoggerHelper.CreateLogger());
-
-			_queueWrapperMock.Verify(x => x.SendChangePlanMessage(It.IsAny<WebhookModel>()), Times.Never());
-			Assert.AreEqual(response.StatusCode, 200);
-		}
-
-		[TestMethod]
-		public async Task Should_Not_Dispatch_ChangePlan_Message_When_Status_Is_Invalid()
-		{
-			var mockData = GetWebHookSucceededMock(WebhookActionType.ChangePlan);
-			mockData.Status = "Failed";
 
 			var request = FunctionRequestHelper.CreateHttpRequest(null, null, GetBodyFromMock(mockData));
 
@@ -185,21 +155,6 @@ namespace AZ.Marketplace.AZ.Marketplace.Functions
 			Assert.AreEqual(response.StatusCode, 200);
 		}
 
-		[TestMethod]
-		public async Task Should_Not_Dispatch_ChangeQuantity_Message_When_Status_Is_Invalid()
-		{
-			var mockData = GetWebHookSucceededMock(WebhookActionType.ChangeQuantity);
-			mockData.Status = "Failed";
-
-			var request = FunctionRequestHelper.CreateHttpRequest(null, null, GetBodyFromMock(mockData));
-
-			var http = new WebhookFunction(_queueWrapperMock.Object);
-			var response = (StatusCodeResult)await http.Run(request, LoggerHelper.CreateLogger());
-
-			_queueWrapperMock.Verify(x => x.SendChangeQuantityMessage(It.IsAny<WebhookModel>()), Times.Never());
-			Assert.AreEqual(response.StatusCode, 200);
-		}
-
 		#endregion
 
 		#region [ Suspend ]
@@ -222,21 +177,6 @@ namespace AZ.Marketplace.AZ.Marketplace.Functions
 		public async Task Should_Not_Dispatch_Suspend_Message_When_Action_Is_Not_Suspend()
 		{
 			var mockData = GetWebHookSucceededMock("anythingelse");
-
-			var request = FunctionRequestHelper.CreateHttpRequest(null, null, GetBodyFromMock(mockData));
-
-			var http = new WebhookFunction(_queueWrapperMock.Object);
-			var response = (StatusCodeResult)await http.Run(request, LoggerHelper.CreateLogger());
-
-			_queueWrapperMock.Verify(x => x.SendSuspendMessage(It.IsAny<WebhookModel>()), Times.Never());
-			Assert.AreEqual(response.StatusCode, 200);
-		}
-
-		[TestMethod]
-		public async Task Should_Not_Dispatch_Suspend_Message_When_Status_Is_Invalid()
-		{
-			var mockData = GetWebHookSucceededMock(WebhookActionType.Suspend);
-			mockData.Status = "Failed";
 
 			var request = FunctionRequestHelper.CreateHttpRequest(null, null, GetBodyFromMock(mockData));
 
@@ -279,21 +219,6 @@ namespace AZ.Marketplace.AZ.Marketplace.Functions
 			Assert.AreEqual(response.StatusCode, 200);
 		}
 
-		[TestMethod]
-		public async Task Should_Not_Dispatch_Reinstate_Message_When_Status_Is_Invalid()
-		{
-			var mockData = GetWebHookSucceededMock(WebhookActionType.Reinstate);
-			mockData.Status = "Failed";
-
-			var request = FunctionRequestHelper.CreateHttpRequest(null, null, GetBodyFromMock(mockData));
-
-			var http = new WebhookFunction(_queueWrapperMock.Object);
-			var response = (StatusCodeResult)await http.Run(request, LoggerHelper.CreateLogger());
-
-			_queueWrapperMock.Verify(x => x.SendReinstateMessage(It.IsAny<WebhookModel>()), Times.Never());
-			Assert.AreEqual(response.StatusCode, 200);
-		}
-
 		#endregion
 
 		#region [ Informational ]
@@ -302,7 +227,6 @@ namespace AZ.Marketplace.AZ.Marketplace.Functions
 		public async Task Should_Dispatch_Informational_Message_When_Status_Is_Invalid()
 		{
 			var mockData = GetWebHookSucceededMock("anything");
-			mockData.Status = "anything";
 
 			var request = FunctionRequestHelper.CreateHttpRequest(null, null, GetBodyFromMock(mockData));
 
@@ -310,21 +234,6 @@ namespace AZ.Marketplace.AZ.Marketplace.Functions
 			var response = (StatusCodeResult)await http.Run(request, LoggerHelper.CreateLogger());
 
 			_queueWrapperMock.Verify(x => x.SendInformationalMessage(It.Is<WebhookModel>(x => JsonConvert.SerializeObject(x) == JsonConvert.SerializeObject(mockData))), Times.Once);
-			Assert.AreEqual(response.StatusCode, 200);
-		}
-
-		[TestMethod]
-		public async Task Should_Not_Dispatch_Informational_Message_When_Status_Is_Valid()
-		{
-			var mockData = GetWebHookSucceededMock(WebhookActionType.Reinstate);
-			mockData.Status = "Succeeded";
-
-			var request = FunctionRequestHelper.CreateHttpRequest(null, null, GetBodyFromMock(mockData));
-
-			var http = new WebhookFunction(_queueWrapperMock.Object);
-			var response = (StatusCodeResult)await http.Run(request, LoggerHelper.CreateLogger());
-
-			_queueWrapperMock.Verify(x => x.SendInformationalMessage(It.IsAny<WebhookModel>()), Times.Never());
 			Assert.AreEqual(response.StatusCode, 200);
 		}
 
