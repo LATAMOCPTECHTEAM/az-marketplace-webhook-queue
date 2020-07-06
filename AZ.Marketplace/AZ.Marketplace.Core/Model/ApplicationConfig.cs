@@ -9,7 +9,7 @@ namespace AZ.Marketplace.Core.Model
 
 		public string QueueType { get; set; }
 
-		public ApplicationConfigServiceBus ServiceBus { get; set; }
+		public ApplicationConfigServiceBus ServiceBus { get; set; } = new ApplicationConfigServiceBus();
 
 	}
 
