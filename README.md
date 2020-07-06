@@ -66,4 +66,5 @@ For Service Bus topics, you should fill the following parameters:
         "servicebus": "<<your-service-bus-connection-string>>"
     }
 }
+
 ```
