@@ -41,7 +41,6 @@ For Service Bus topics, you should fill the following parameters:
 | servicebus.reinstateTopic      | string | `reinstate`        | The name of the Topic that will receive messages with Action = `Reinstate`      |
 | servicebus.informational       | string | `informational`    | The name of the Topic that will receive all other messages that doesn't fit the options above            |
 
-
 #### Connection Strings
 | Parameter  | Type   | default | description                          |
 | ---------- | ------ | ------- | ------------------------------------ |
@@ -67,4 +66,5 @@ For Service Bus topics, you should fill the following parameters:
         "servicebus": "<<your-service-bus-connection-string>>"
     }
 }
+
 ```

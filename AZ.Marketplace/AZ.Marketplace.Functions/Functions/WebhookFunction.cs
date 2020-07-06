@@ -8,6 +8,8 @@ using AZ.Marketplace.Core.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Web.Http;
+using System;
 
 namespace AZ.Marketplace.Functions
 {
@@ -23,35 +25,42 @@ namespace AZ.Marketplace.Functions
 			[HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
 			ILogger log)
 		{
-			string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-
-			var data = JsonConvert.DeserializeObject<WebhookModel>(requestBody);
-
-			//		log.LogInformation("C# HTTP trigger function processed a request.");
-
-			switch (data.Action)
+			try
 			{
-				case WebhookActionType.Unsubscribe:
-					await _queueWrapper.SendUnsubscribeMessage(data);
-					break;
-				case WebhookActionType.ChangePlan:
-					await _queueWrapper.SendChangePlanMessage(data);
-					break;
-				case WebhookActionType.ChangeQuantity:
-					await _queueWrapper.SendChangeQuantityMessage(data);
-					break;
-				case WebhookActionType.Suspend:
-					await _queueWrapper.SendSuspendMessage(data);
-					break;
-				case WebhookActionType.Reinstate:
-					await _queueWrapper.SendReinstateMessage(data);
-					break;
-				default:
-					await _queueWrapper.SendInformationalMessage(data);
-					break;
-			}
+				log.LogInformation("C# HTTP trigger function processed a request.");
 
-			return new OkResult();
+				string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+
+				var data = JsonConvert.DeserializeObject<WebhookModel>(requestBody);
+
+				switch (data.Action)
+				{
+					case WebhookActionType.Unsubscribe:
+						await _queueWrapper.SendUnsubscribeMessage(data);
+						break;
+					case WebhookActionType.ChangePlan:
+						await _queueWrapper.SendChangePlanMessage(data);
+						break;
+					case WebhookActionType.ChangeQuantity:
+						await _queueWrapper.SendChangeQuantityMessage(data);
+						break;
+					case WebhookActionType.Suspend:
+						await _queueWrapper.SendSuspendMessage(data);
+						break;
+					case WebhookActionType.Reinstate:
+						await _queueWrapper.SendReinstateMessage(data);
+						break;
+					default:
+						await _queueWrapper.SendInformationalMessage(data);
+						break;
+				}
+
+				return new OkResult();
+			}
+			catch (Exception e)
+			{
+				return new ExceptionResult(e, true);
+			}
 		}
 	}
 }

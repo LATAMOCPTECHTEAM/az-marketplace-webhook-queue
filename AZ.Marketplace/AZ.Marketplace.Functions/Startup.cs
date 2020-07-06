@@ -34,6 +34,9 @@ namespace AZ.Marketplace.Functions
 					informationalTopic: new TopicClient(connectionString, appConfig.ServiceBus.InformationalTopic)
 				));
 			}
+
+			builder.Services.AddApplicationInsightsTelemetry();
+
 		}
 
 		private ApplicationConfig GetAppConfig(IConfigurationRoot config)
