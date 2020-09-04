@@ -16,7 +16,7 @@ This app was created as a middleware to integrate Azure Marketplace Webhooks wit
     | Queue              | Status          |
     | ------------------ | --------------  |
     | Service Bus Topics | Implemented     |
-    | Service Bus Queues | Not Implemented |
+    | Service Bus Queues | Implemented |
     | EventHubs          | Not Implemented |
     | Kafka              | Not Implemented |
 
@@ -31,34 +31,34 @@ All the configuration is done using the appsettings.json (local.settings.json fo
 For Service Bus topics, you should fill the following parameters:
 
 #### Values
-| Parameter                      | Type   | default            | description                                                                                              |
-| ------------------------------ | ------ | ------------------ | -------------------------------------------------------------------------------------------------------- |
-| queueType                      | string | `servicebus-topic` | The type of Queue that will be used.                                                                     |
-| servicebus.unsubscribeTopic    | string | `unsubscribe`      | The name of the Topic that will receive messages with Action = `Unsubscribe`    |
-| servicebus.changePlanTopic     | string | `changePlan`       | The name of the Topic that will receive messages with Action = `ChangePlan`     |
-| servicebus.changeQuantityTopic | string | `changeQuantity`   | The name of the Topic that will receive messages with Action = `ChangeQuantity` |
-| servicebus.suspendTopic        | string | `suspend`          | The name of the Topic that will receive messages with Action = `Suspend`        |
-| servicebus.reinstateTopic      | string | `reinstate`        | The name of the Topic that will receive messages with Action = `Reinstate`      |
-| servicebus.informational       | string | `informational`    | The name of the Topic that will receive all other messages that doesn't fit the options above            |
+| Parameter                      | Type   | default                                  | description                                                                                              |
+| ------------------------------ | ------ | ------------------                       | -------------------------------------------------------------------------------------------------------- |
+| queueType                      | string | `servicebus-topic` or `servicebus-queue` | The type of Queue that will be used.                                                                     |
+| servicebus.unsubscribe         | string | `unsubscribe`                            | The name of the Topic/Queue that will receive messages with Action = `Unsubscribe`                       |
+| servicebus.changePlan          | string | `changePlan`                             | The name of the Topic/Queue that will receive messages with Action = `ChangePlan`                        |
+| servicebus.changeQuantity      | string | `changeQuantity`                         | The name of the Topic/Queue that will receive messages with Action = `ChangeQuantity`                    |
+| servicebus.suspend             | string | `suspend`                                | The name of the Topic/Queue that will receive messages with Action = `Suspend`                           |
+| servicebus.reinstate           | string | `reinstate`                              | The name of the Topic/Queue that will receive messages with Action = `Reinstate`                         |
+| servicebus.informational       | string | `informational`                          | The name of the Topic/Queue that will receive all other messages that doesn't fit the options above      |
 
 #### Connection Strings
 | Parameter  | Type   | default | description                          |
 | ---------- | ------ | ------- | ------------------------------------ |
-| servicebus | string |         | The type of Queue that will be used. |
+| servicebus | string |         | Connection string to connect to Service Bus. |
 
 #### Example
 ```
 {
     "IsEncrypted": false,
     "Values": {
-        "queueType": "servicebus-topic",
+        "queueType": "servicebus-topic", # or servicebus-queue
         "servicebus": {
-            "unsubscribeTopic": "unsubscribe",
-            "changePlanTopic": "changeplan",
-            "changeQuantityTopic": "changequantity",
-            "suspendTopic": "suspend",
-            "reinstateTopic": "reinstate",
-            "informationalTopic": "informational"
+            "unsubscribe": "unsubscribe",
+            "changePlan": "changeplan",
+            "changeQuantity": "changequantity",
+            "suspend": "suspend",
+            "reinstate": "reinstate",
+            "informational": "informational"
         },
         "FUNCTIONS_WORKER_RUNTIME": "dotnet"
     },
