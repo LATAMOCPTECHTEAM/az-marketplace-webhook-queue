@@ -7,6 +7,7 @@ using Microsoft.Azure.WebJobs.Host.Bindings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using System;
 
 [assembly: FunctionsStartup(typeof(AZ.Marketplace.Functions.Startup))]
 namespace AZ.Marketplace.Functions
@@ -20,18 +21,32 @@ namespace AZ.Marketplace.Functions
 			var connectionStrings = GetAppConnectionStrings(configuration);
 
 			builder.Services.AddHttpClient();
+			Console.WriteLine($"QueueType: {appConfig.QueueType}");
 
 			if (appConfig.QueueType == ApplicationConfigType.ServiceBusTopic)
 			{
 				var connectionString = connectionStrings.ServiceBus;
 
 				builder.Services.AddSingleton<IQueueWrapper>(new ServiceBusTopicWrapper(
-					unsubscribeTopic: new TopicClient(connectionString, appConfig.ServiceBus.UnsubscribeTopic),
-					changePlanTopic: new TopicClient(connectionString, appConfig.ServiceBus.ChangePlanTopic),
-					changeQuantityTopic: new TopicClient(connectionString, appConfig.ServiceBus.ChangeQuantityTopic),
-					suspendTopic: new TopicClient(connectionString, appConfig.ServiceBus.SuspendTopic),
-					reinstateTopic: new TopicClient(connectionString, appConfig.ServiceBus.ReinstateTopic),
-					informationalTopic: new TopicClient(connectionString, appConfig.ServiceBus.InformationalTopic)
+					unsubscribeTopic: new TopicClient(connectionString, appConfig.ServiceBus.Unsubscribe),
+					changePlanTopic: new TopicClient(connectionString, appConfig.ServiceBus.ChangePlan),
+					changeQuantityTopic: new TopicClient(connectionString, appConfig.ServiceBus.ChangeQuantity),
+					suspendTopic: new TopicClient(connectionString, appConfig.ServiceBus.Suspend),
+					reinstateTopic: new TopicClient(connectionString, appConfig.ServiceBus.Reinstate),
+					informationalTopic: new TopicClient(connectionString, appConfig.ServiceBus.Informational)
+				));
+			}
+			else if (appConfig.QueueType == ApplicationConfigType.ServiceBusQueue)
+			{
+				var connectionString = connectionStrings.ServiceBus;
+
+				builder.Services.AddSingleton<IQueueWrapper>(new ServiceBusQueueWrapper(
+					unsubscribeQueue: new QueueClient(connectionString, appConfig.ServiceBus.Unsubscribe),
+					changePlanQueue: new QueueClient(connectionString, appConfig.ServiceBus.ChangePlan),
+					changeQuantityQueue: new QueueClient(connectionString, appConfig.ServiceBus.ChangeQuantity),
+					suspendQueue: new QueueClient(connectionString, appConfig.ServiceBus.Suspend),
+					reinstateQueue: new QueueClient(connectionString, appConfig.ServiceBus.Reinstate),
+					informationalQueue: new QueueClient(connectionString, appConfig.ServiceBus.Informational)
 				));
 			}
 

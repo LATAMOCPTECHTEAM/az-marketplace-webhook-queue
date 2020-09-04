@@ -18,6 +18,8 @@ namespace AZ.Marketplace.Core.Model
 
 		public const string ServiceBusTopic = "servicebus-topic";
 
+		public const string ServiceBusQueue = "servicebus-queue";
+
 	}
 
 	public class ApplicationConfigConnectionStrings
@@ -30,17 +32,17 @@ namespace AZ.Marketplace.Core.Model
 	public class ApplicationConfigServiceBus
 	{
 
-		public string UnsubscribeTopic { get; set; } = "unsubscribe";
+		public string Unsubscribe { get; set; } = "unsubscribe";
 
-		public string ChangePlanTopic { get; set; } = "changeplan";
+		public string ChangePlan { get; set; } = "changeplan";
 
-		public string ChangeQuantityTopic { get; set; } = "changequantity";
+		public string ChangeQuantity { get; set; } = "changequantity";
 
-		public string SuspendTopic { get; set; } = "suspend";
+		public string Suspend { get; set; } = "suspend";
 
-		public string ReinstateTopic { get; set; } = "reinstate";
+		public string Reinstate { get; set; } = "reinstate";
 
-		public string InformationalTopic { get; set; } = "informational";
+		public string Informational { get; set; } = "informational";
 
 	}
 }
