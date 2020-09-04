@@ -39,7 +39,7 @@ For Service Bus topics, you should fill the following parameters:
 | servicebus.changeQuantityTopic | string | `changeQuantity`   | The name of the Topic that will receive messages with Action = `ChangeQuantity` |
 | servicebus.suspendTopic        | string | `suspend`          | The name of the Topic that will receive messages with Action = `Suspend`        |
 | servicebus.reinstateTopic      | string | `reinstate`        | The name of the Topic that will receive messages with Action = `Reinstate`      |
-| servicebus.informational       | string | `informational`    | The name of the Topic that will receive all other messages that doesn't fit the options above            |
+| servicebus.informationalTopic  | string | `informational`    | The name of the Topic that will receive all other messages that doesn't fit the options above            |
 
 #### Connection Strings
 | Parameter  | Type   | default | description                          |
