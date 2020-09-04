@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace AZ.Marketplace.Test.AZ.Marketplace.Core
 {
 	[TestClass]
-	public class ServiceBusWrapperTest
+	public class ServiceBusTopicWrapperTest
 	{
 		private Mock<ITopicClient> _topicClientUnsubscribeMock;
 		private Mock<ITopicClient> _topicClientChangePlanMock;
