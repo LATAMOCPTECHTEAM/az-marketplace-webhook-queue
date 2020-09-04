@@ -16,7 +16,7 @@ This app was created as a middleware to integrate Azure Marketplace Webhooks wit
     | Queue              | Status          |
     | ------------------ | --------------  |
     | Service Bus Topics | Implemented     |
-    | Service Bus Queues | Not Implemented |
+    | Service Bus Queues | Implemented |
     | EventHubs          | Not Implemented |
     | Kafka              | Not Implemented |
 
